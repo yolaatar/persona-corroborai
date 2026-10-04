@@ -4,6 +4,10 @@ Compare l'extraction du Système A (RH) à celle du Système B (Temps), applique
 
 Les fichiers d'entrée sont ouverts en lecture seule. Leurs empreintes SHA-256 sont vérifiées avant et après chaque exécution.
 
+## Version en ligne
+
+Visionneuse du rapport (GitHub Pages) : https://yolaatar.github.io/persona-corroborai/
+
 ## Démarrage
 
 ```bash
