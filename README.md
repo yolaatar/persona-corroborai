@@ -27,9 +27,9 @@ Sortie dans `out/` :
 
 | Verdict | Lignes |
 |---|---|
-| ANOMALIE | 9 |
-| ANOMALIE PROBABLE (à valider) | 2 |
-| ÉCART JUSTIFIÉ | 1 |
+| ANOMALIE | 7 |
+| ANOMALIE PROBABLE (à valider) | 3 |
+| ÉCART JUSTIFIÉ | 2 |
 | CONFORME | 11 |
 
 Les 23 lignes source sont rapprochées de 22 lignes cible. Une affectation temporaire (`TypeAffectation = A`) est absente de la cible et sort en anomalie.
@@ -67,7 +67,8 @@ Les 23 lignes source sont rapprochées de 22 lignes cible. Une affectation tempo
 
 ## Limites et points à confirmer
 
-- **Règle de date** : le mapping prévoit la date de changement d'unité administrative tirée du détail de poste. La cible ne la reproduit pas pour la plupart des lignes et utilise la date d'entrée source. Le contrôle s'appuie donc sur `DateEntréePoste`. Trois dossiers portent une date égale à la dernière date d'effet du détail, et sont signalés comme anomalies.
+- **Règle de date** : le mapping prévoit la date de changement d'unité administrative tirée du détail de poste. La cible ne la reproduit pas pour la plupart des lignes et utilise la date d'entrée source. Le contrôle s'appuie donc sur `DateEntréePoste`. Trois dossiers portent une date égale à la dernière date d'effet du détail : les organisateurs ont confirmé que c'est la règle transformée voulue, donc écart justifié.
+- **Libellé de rôle** : le préfixe numérique différent du code emploi est une erreur confirmée par les organisateurs : signalé comme écart systématique.
 - **Courriel** : la source ne contient pas l'adresse, donc la règle de génération est testée sur les valeurs cible. Le préfixe `dev-08-v2_` est optionnel (accepté, réponse des organisateurs sur Discord). Les chiffres qui diffèrent de la règle sont une erreur d'anonymisation, confirmée par les organisateurs : signalée comme écart systématique et non comme anomalie.
 - **Libellé de rôle** : le préfixe numérique du libellé (`4367-Empl4367` pour le code 6203) ne correspond pas au code emploi sur les 22 lignes. Écart systématique à confirmer, probablement un effet d'anonymisation.
 - **Horaires** : le mapping ne prévoit pas que les heures viennent du détail de poste. La cible reprend 40 h dans quatre cas où la source indique 35 h, 36 h, ou rien. Verdict probable, pas certain.

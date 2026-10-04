@@ -17,7 +17,7 @@ import math
 
 import pandas as pd
 
-from .engine import A_ARBITRER, V_A_ARBITRER, V_ANOMALIE_PROBABLE, Finding
+from .engine import A_ARBITRER, ECART_JUSTIFIE, V_A_ARBITRER, V_ANOMALIE_PROBABLE, Finding
 from .rules import _is_missing
 
 ANOMALY_THRESHOLD = 0.6  # at or above: "ANOMALIE PROBABLE"; below: "À ARBITRER"
@@ -121,9 +121,13 @@ def _arbitrate_start_date(f, src, tgt, detail, evidence):
         f"Historique du poste : {len(detail)} effets, de {detail['date_effet'].min()} à {last}."
     )
     if tgt_date == last and tgt_date != src_date:
-        f.explanation = (
-            f"La cible porte {tgt_date}, égal à la dernière date d'effet du détail de poste, et non à la date d'entrée "
-            f"source ({src_date}). La date cible n'est pas celle que le mapping prévoit."
-        )
+        # Organisers confirmed (Discord): the source holds the position effective date only,
+        # the target holds the transformed rule value. The difference is intended.
+        f.status = ECART_JUSTIFIE
         f.confidence = 0.9
-        f.evidence.append("Date cible = dernière date d'effet du détail de poste.")
+        f.explanation = (
+            f"Date cible {tgt_date} = dernière date d'effet du détail de poste, valeur issue de la règle de "
+            f"transformation du mapping. La source ne porte que la date d'effet du poste ({src_date}). "
+            "Écart voulu, confirmé par les organisateurs."
+        )
+        f.evidence.append("Date cible = règle transformée (détail de poste), confirmée par les organisateurs.")

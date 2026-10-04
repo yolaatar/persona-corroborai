@@ -244,10 +244,16 @@ def mark_systematic(all_findings: dict[int, list[Finding]]) -> dict[str, dict]:
         if len(fs) >= SYSTEMATIC_MIN_ROWS and len(bad) / len(fs) >= SYSTEMATIC_RATIO:
             for f in bad:
                 f.status = ECART_SYSTEMATIQUE
-                f.explanation = (
-                    f"Écart sur {len(bad)}/{len(fs)} lignes évaluables : la même règle échoue presque partout. "
-                    "Ce n'est pas une erreur par ligne ; probable effet de génération ou d'anonymisation du jeu, à confirmer."
-                )
+                if rule_id == "R13":
+                    f.explanation = (
+                        "Préfixe numérique du libellé de rôle différent du code emploi, sur toutes les lignes. "
+                        "Erreur confirmée par les organisateurs (Discord) : compté comme écart, pas comme anomalie par dossier."
+                    )
+                else:
+                    f.explanation = (
+                        f"Écart sur {len(bad)}/{len(fs)} lignes évaluables : la même règle échoue presque partout. "
+                        "Ce n'est pas une erreur par ligne ; probable effet de génération ou d'anonymisation du jeu, à confirmer."
+                    )
             notes[rule_id] = {"fails": len(bad), "evaluable": len(fs)}
     return notes
 

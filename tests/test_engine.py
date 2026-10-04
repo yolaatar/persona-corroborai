@@ -65,11 +65,13 @@ def test_missing_temporary_assignment_is_anomaly(results):
     assert row.target_index is None
 
 
-def test_start_date_equals_last_detail_effect(results):
+def test_start_date_is_intended_transformation(results):
+    # Organisers confirmed (Discord): the target date is the transformed rule value, not an error.
     row = _row(results, 9989151, "P")
     finding = next(f for f in row.findings if f.rule_id == "R18")
-    assert finding.status == "ECART"
+    assert finding.status == "ECART_JUSTIFIE"
     assert "dernière date d'effet" in finding.explanation
+    assert row.verdict == "ÉCART JUSTIFIÉ"
 
 
 def test_hours_default_is_probable_anomaly(results):

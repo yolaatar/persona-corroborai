@@ -13,7 +13,7 @@ Dire : les extractions sont ouvertes en lecture seule, et les empreintes SHA-256
 
 ## 2. Vue d'ensemble (30 s)
 
-Montrer le compteur : 23 lignes source, 11 conformes, 1 écart justifié, 2 anomalies probables, 9 anomalies. Expliquer qu'un écart systématique (courriel, libellé de rôle) n'est pas compté comme erreur par dossier : c'est un effet du jeu, à confirmer.
+Montrer le compteur : 23 lignes source, 11 conformes, 2 écarts justifiés, 3 anomalies probables, 7 anomalies. Expliquer qu'un écart systématique (courriel, libellé de rôle) n'est pas compté comme erreur par dossier : c'est un effet du jeu, à confirmer.
 
 ## 3. Cas conforme (30 s)
 
@@ -42,7 +42,7 @@ Matricule **2911996**, affectation P.
 
 - Le moteur ne lit que les champs du mapping.
 - L'arbitrage repose sur des preuves croisées, pas sur un modèle de langage. Aucune donnée ne sort de la machine.
-- Les règles de date de changement d'unité du mapping ne sont pas reproduites par la cible : le contrôle s'appuie sur la date d'entrée, et les trois dossiers concernés sont signalés.
+- La date d'entrée cible est la règle transformée, voulue selon les organisateurs : elle est justifiée et non une anomalie.
 
 ## Question possible du jury : « Et si les données changent ? »
 
