@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-10-04T13:33:29",
+  "inputs": {
+    "Employe_Source_Anonymise_VF.xlsx": "4f825d17938a8170ea1ed2986b12ed240987430984b3693b993bd8f2f290f5b6",
+    "Employe_Destination_Anonymise_VF.xlsx": "67c4d64b4a11e566bc4962da8a50562b47f394c27a3555476117b0a702b10717",
+    "Mapping.xlsx": "6e7e618d6efbc67576056de610f91b8f47beebbbf59873ffe797f3d305a677ee",
+    "Motif de la situation d'emploi.xlsx": "5d143df7ee15e3532eb01469a5a442bc87d1a80edc9cbb3d90bcb246f9e0973b",
+    "détail_du_poste.xlsx": "ab142775628bc16d4239b01d94733f9f094004ff9c36db33bdc190862ab18b6c"
+  },
+  "rows_source": 23,
+  "rows_target": 22,
+  "verdict_counts": {
+    "ANOMALIE": 7,
+    "ANOMALIE PROBABLE (à valider)": 3,
+    "ÉCART JUSTIFIÉ": 2,
+    "CONFORME": 11
+  },
+  "unmatched_target_indexes": []
+}

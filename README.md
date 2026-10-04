@@ -12,7 +12,7 @@ python run.py --data ../corroborai-participants --out out
 python -m pytest -q                      # tests de non-régression et de perturbation (15)
 ```
 
-Sortie dans `out/` :
+Sortie dans `out/` (un exemple généré à partir des extractions du défi est dans le dépôt, autorisé par les organisateurs) :
 
 | Fichier | Contenu |
 |---|---|
