@@ -10,6 +10,7 @@ Pipeline
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 
 import pandas as pd
@@ -159,6 +160,9 @@ def evaluate_field(rule: Rule, src_row: pd.Series, tgt_row: pd.Series, ctx: Cont
             **base,
         )
 
+    if rule.rule_id == "R03" and isinstance(raw_actual, str) and isinstance(expected, str):
+        return _evaluate_email(expected, raw_actual, base)
+
     exp_n = _kind_value(rule, expected) if not _is_missing(expected) else None
     act_fixed = fix_mojibake(raw_actual) if isinstance(raw_actual, str) else raw_actual
     act_n = _kind_value(rule, act_fixed) if not _is_missing(act_fixed) else None
@@ -189,6 +193,34 @@ def evaluate_field(rule: Rule, src_row: pd.Series, tgt_row: pd.Series, ctx: Cont
     if rule.severity == "ambiguous":
         return Finding(status=A_ARBITRER, explanation="Écart sur une valeur que le mapping ne tranche pas seul.", **base)
     return Finding(status=ECART, explanation="Valeur cible différente de la valeur attendue selon la règle.", **base)
+
+
+EMAIL_OPTIONAL_PREFIX = "dev-08-v2_"  # optional prefix, present only in the target (organisers, Discord)
+
+
+def _evaluate_email(expected: str, actual: str, base: dict) -> Finding:
+    """Email rule with the two known patterns from the organisers.
+
+    1. The optional prefix "dev-08-v2_" is accepted and ignored.
+    2. Digits that differ from the rule are an anonymisation error, confirmed
+       by the organisers. Letters must still match.
+    """
+    stripped = actual[len(EMAIL_OPTIONAL_PREFIX):] if actual.startswith(EMAIL_OPTIONAL_PREFIX) else actual
+    if stripped.lower() == expected.lower():
+        note = "Préfixe optionnel dev-08-v2_ accepté." if stripped != actual else ""
+        return Finding(status=OK, explanation=note, **base)
+    exp_letters = re.sub(r"\d", "", expected.split("@")[0])
+    act_letters = re.sub(r"\d", "", stripped.split("@")[0])
+    if exp_letters.lower() == act_letters.lower() and expected.split("@")[1] == stripped.split("@")[1]:
+        return Finding(
+            status=ECART_SYSTEMATIQUE,
+            explanation=(
+                "Lettres conformes à la règle, chiffres différents : erreur d'anonymisation confirmée par les "
+                "organisateurs (Discord, réponse à Louis Barbonet). Non comptée comme anomalie."
+            ),
+            **base,
+        )
+    return Finding(status=ECART, explanation="Courriel différent de la règle, au-delà de l'anonymisation connue.", **base)
 
 
 def evaluate_row(s_idx, t_idx, source, target, ctx: Context, inputs: Inputs) -> list[Finding]:

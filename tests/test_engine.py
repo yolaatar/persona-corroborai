@@ -87,7 +87,24 @@ def test_missing_source_hours_goes_to_arbitration(results):
 
 def test_systematic_rules_detected(results):
     _, meta = results
-    assert {"R03", "R13"} <= set(meta["systematic"])
+    assert "R13" in meta["systematic"]  # position label prefix
+
+
+def test_email_anonymisation_is_documented_not_anomaly(results):
+    row = _row(results, 1545850, "P")
+    finding = next(f for f in row.findings if f.rule_id == "R03")
+    assert finding.status == "ECART_SYSTEMATIQUE"
+    assert "anonymisation" in finding.explanation
+    assert row.verdict == "CONFORME"
+
+
+def test_optional_prefix_is_accepted():
+    from corroborai.engine import _evaluate_email
+
+    f = _evaluate_email("PNom1545850850@loto-quebec.com", "dev-08-v2_PNom1545850850@loto-quebec.com", {
+        "rule_id": "R03", "target": "contactEmail", "description": "", "mapping_ref": "",
+        "source_value": None, "expected": None, "actual": None})
+    assert f.status == "OK"
 
 
 def test_mojibake_repair():
